@@ -125,26 +125,33 @@
         <div class="row g-4">
             <div class="col-lg-12">
                 <div class="row g-4">                                                            
-                    @foreach($produits as $produit)
-                    <div class="col-md-6 col-lg-4 col-xl-3">                                            
-                        <div class="rounded position-relative fruite-item">
-                            <a href="{{ route('shop.show', ['id' => $produit->id]) }}"> <!-- Link here -->
-                                <div class="fruite-img">
-                                    <img src="{{ asset('storage/' . $produit->image) }}"  class="img-fluid w-100 rounded-top" alt="">
-                                </div>
-                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">{{$produit->sousFamille->libelle }} </div>
-                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                    <h4>{{ $produit->designation }}</h4>
-                                    <p>{{ substr($produit->description, 0, 38) }}...</p>
-                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                        <p class="text-dark fs-5 fw-bold mb-0"> {{ $produit->prix_ht }}.00 DH / kg</p>
-                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                    </div>
-                                </div>   
-                            </a>
-                        </div>                                    
-                    </div> 
-                    @endforeach
+                @foreach($produits as $produit)
+    <div class="col-md-6 col-lg-4 col-xl-3">
+            <div class="rounded position-relative fruite-item">
+                <a href="{{ route('shop.show', ['id' => $produit->id]) }}">
+                    <div class="fruite-img">
+                        <img src="{{ asset('storage/' . $produit->image) }}" class="img-fluid w-100 rounded-top" alt="">
+                    </div>
+                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">{{ $produit->sousFamille->libelle }}</div>
+                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                        <h4>{{ $produit->designation }}</h4>
+                        <p>{{ substr($produit->description, 0, 38) }}...</p>
+                        <div class="d-flex justify-content-between flex-lg-wrap">
+                            <p class="text-dark fs-5 fw-bold mb-0">{{ $produit->prix_ht }}.00 DH / kg</p>
+                        <form action="{{ route('cart.add') }}" method="POST">
+                             @csrf
+                            <input type="hidden" name="product_id" value="{{ $produit->id }}">
+                            <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                            </button>
+                        </form>
+                        </div>
+                    </div>
+                </a>
+            </div>
+    </div>
+@endforeach
+
                 </div>
             </div>
         </div>

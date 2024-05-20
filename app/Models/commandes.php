@@ -17,4 +17,9 @@ class commandes extends Model
         'user_id',
     ];
 
+
+    public function detailsCommandes()
+    {
+        return $this->hasMany(DetailsCommande::class);
+    }
 }

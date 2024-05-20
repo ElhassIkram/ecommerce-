@@ -26,5 +26,8 @@ class produits extends Model
     public function unite(){
         return $this->belongsTo(unites::class, 'unite_id');
     }
-   
+    public function detailsCommandes()
+    {
+        return $this->hasMany(DetailsCommande::class);
+    }
 }
