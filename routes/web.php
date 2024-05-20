@@ -15,7 +15,14 @@ use App\Http\Controllers\SousFamillesController;
 use App\Http\Controllers\UnitesController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 
+//cart routes
+Route::get('/cart', [CartController::class,'index'])->name('cart.index');
+Route::post('/add/cart/', [CartController::class, 'addProductToCart'])->name('cart.add');
+Route::delete('cart/remove/{id}', [CartController::class, 'removeProductFromCart'])->name('cart.remove');
+Route::put('cart/update/{id}', [CartController::class, 'updateProductOnCart'])->name('cart.update');
+Route::post('/cart/order', [CartController::class, 'placeOrder'])->name('cart.order');
 
 //interface
 Route::get('/', [interfaceController::class,'index'])->name('home');
