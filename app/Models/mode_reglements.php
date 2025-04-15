@@ -11,4 +11,10 @@ class mode_reglements extends Model
     protected $fillable = [
         'mode_reglements',
     ];
+
+
+    public function commandes()
+    {
+        return $this->hasMany(commandes::class);
+    }
 }

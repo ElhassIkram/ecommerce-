@@ -28,8 +28,14 @@ class ModeReglementsController extends Controller
             'mode-reglement' => 'required|string',
         ]);
       
+    // Ajout explicite de la valeur 'mode-reglement' à 'mode_reglements'
+    $validatedData = $request->only('mode-reglement');
 
-        mode_reglements::create($request->all());
+        mode_reglements::create([
+            'mode_reglements' => $validatedData['mode-reglement'],  // Utiliser la valeur validée
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         return redirect()->route('modereglements.index')
             ->with('success', 'Mode de règlement ajouté avec succès.');

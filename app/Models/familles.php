@@ -10,5 +10,8 @@ class familles extends Model
     use HasFactory;
     protected $fillable = ['libelle', 'image'];
     
-   
+    public function sousFamilles()
+    {
+        return $this->hasMany(sous_familles::class, 'famille_id');
+    }
 }

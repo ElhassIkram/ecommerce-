@@ -7,95 +7,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Produits</title>
-
 </head>
 <body>
-<div id="app">
-    <div class="main-wrapper main-wrapper-1">
-    <div class="main-content">
-    <h1>Liste des Produits</h1>
+<div >
+    <div class="main-wrapper">
+        <div class="main-content">
+            <h1>Liste des Produits</h1>
 
-    <a href="{{ route('produits.create') }}">Ajouter un Produit</a>
+            <a class="btn btn-info" href="{{ route('produits.create') }}">Ajouter un Produit</a>
 
-    @if ($produits->isEmpty())
-        <p>Aucun produit disponible pour le moment.</p>
-    @else
-        <div class="card-container">
-            @foreach ($produits as $produit)
-                <div class="card">
-                    <h2>{{ $produit->designation }}</h2>
-                    @if($produit->image)
-                        <img src="{{ asset('storage/' . $produit->image) }}" alt="{{ $produit->designation }}">
-                    @else
-                        <p>Pas d'image</p>
-                    @endif
-                    <p>Prix HT: {{ $produit->prix_ht }}.00 DH</p>
-                    <p>Sous-Famille: {{ optional($produit->sousFamille)->libelle }}</p>
-                    <p>Unité: {{ optional($produit->unite)->unite }}</p>
-                    <div>
-                        <a href="{{ route('produits.show', $produit->id) }}"  class="btn btn-info">Voir</a>
-                        <a href="{{ route('produits.edit', $produit->id) }}"  class="btn btn-primary">Modifier</a>
-                        <form id="deleteForm" action="{{ route('produits.destroy', $produit->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</button>
-                        </form>
-                        
-                    </div>
-                </div>
-            @endforeach
+            @if ($produits->isEmpty())
+                <p>Aucun produit disponible pour le moment.</p>
+            @else
+                <table class="table table-bordered mt-3">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Désignation</th>
+                            <th>Prix HT</th>
+                            <th>Sous-Famille</th>
+                            <th>Unité</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($produits as $produit)
+                            <tr>
+                                <td>
+                                    @if($produit->image)
+                                        <img src="{{ asset('storage/' . $produit->image) }}" alt="{{ $produit->designation }}" style="width: 70px; height: 70px; object-fit: cover;">
+                                    @else
+                                        <p>Pas d'image</p>
+                                    @endif
+                                </td>
+                                <td>{{ $produit->designation }}</td>
+                                <td>{{ $produit->prix_ht }}.00 DH</td>
+                                <td>{{ optional($produit->sousFamille)->libelle }}</td>
+                                <td>{{ optional($produit->unite)->unite }}</td>
+                                <td>
+                                    <a href="{{ route('produits.show', $produit->id) }}" class="btn btn-info btn-sm">Voir</a>
+                                    <a href="{{ route('produits.edit', $produit->id) }}" class="btn btn-primary btn-sm">Modifier</a>
+                                    <form action="{{ route('produits.destroy', $produit->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
         </div>
-    @endif
-    </div>
     </div>
 </div>
+
 <style>
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 20px;
-            width: 100%;
-        }
-
-        .card h2 {
-            margin-top: 0;
-        }
-
-        .card img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }
-
-        .card p {
-            margin: 5px 0;
-        }
-
-        .card a {
-            margin-right: 10px;
-        }
-
-        .card button {
-            margin-top: 10px;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 3px;
-            background-color: #dc3545;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .card button:hover {
-            background-color: #c82333;
-        }
-    </style>
+    .table th, .table td {
+        text-align: center;
+    }
+    .table img {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+    }
+</style>
 </body>
 </html>
 @endsection

@@ -16,7 +16,7 @@
 <div id="app">
     <div class="main-wrapper main-wrapper-1">
     <div class="main-content">
-        <h1>Liste des Familles</h1>
+        <h2>Liste des Familles</h2>
         <a href="{{ route('familles.create') }}" class="btn btn-primary mb-3">Ajouter une famille</a>
 
         @if(session('success'))
@@ -28,24 +28,24 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
+                <th></th>
                     <th>Libellé</th>
-                    <th>Image</th>
+                   
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($familles as $famille)
                     <tr>
-                        <td>{{ $famille->id }}</td>
-                        <td>{{ $famille->libelle }}</td>
-                        <td>
+                    <td>
                             @if($famille->image)
                                 <img src="{{ asset('storage/' . $famille->image) }}" alt="{{ $famille->libelle }}" style="max-width: 100px;">
                             @else
                                 Pas d'image
                             @endif
                         </td>
+                        <td>{{ $famille->libelle }}</td>
+                       
                         <td>
                             <a href="{{ route('familles.show', $famille->id) }}" class="btn btn-info">Voir</a>
                             <a href="{{ route('familles.edit', $famille->id) }}" class="btn btn-primary">Modifier</a>
@@ -68,3 +68,12 @@
 </body>
 </html>
 @endsection
+<style>
+    td img {
+        width: 70px;
+        height: 70px;
+        object-fit: cover; /* Assure que l'image remplit l'espace sans être déformée */
+        border-radius: 3px; /* Optionnel : ajoute des bords arrondis pour un meilleur rendu */
+        margin-top: 10px; /* Ajoute un espacement au-dessus de l'image */
+    }
+</style>
