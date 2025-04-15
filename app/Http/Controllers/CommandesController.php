@@ -15,14 +15,17 @@ class CommandesController extends Controller
      */
     public function index()
     {
-        $commandes = commandes::all();
+        // Get all commandes with related models
+        $commandes = Commandes::with(['user', 'modeReglement', 'etat']) ->orderBy('id', 'desc')->get();
+
         return view('dashboard.commandes.index', compact('commandes'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response       
+     * 
      */
     public function create()
     {

@@ -12,6 +12,9 @@
                 <a href="/dashboard" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
             </li>
             <li >
+                <a href="/commandes" class="nav-link"><i data-feather="monitor"></i><span>commandes</span></a>
+            </li>
+            <li >
                 <a href="/users" class="nav-link"><i data-feather="users"></i><span> Users</span></a>
             </li>
             <li >
@@ -35,6 +38,9 @@
             </li>
             <li >
                 <a href="/etats" class="nav-link"><i data-feather="box"></i><span> Etats</span></a>
+            </li>
+            <li >
+                <a href="/modereglements" class="nav-link"><i data-feather="box"></i><span> Mode Reglements</span></a>
             </li>
 
         </ul>

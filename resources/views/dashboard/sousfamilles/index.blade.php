@@ -21,9 +21,8 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
+                <th></th>
                     <th>Libellé</th>
-                    <th>Image</th>
                     <th>Famille</th>
                     <th>Action</th>
                 </tr>
@@ -31,29 +30,36 @@
             <tbody>
                 @foreach($sousfamilles as $sousfamille)
                     <tr>
-                        <td>{{ $sousfamille->id }}</td>
-                        <td>{{ $sousfamille->libelle }}</td>
-                        <td>
+                    <td>
                             @if($sousfamille->image)
                                 <img src="{{ asset('storage/' . $sousfamille->image) }}" alt="{{ $sousfamille->libelle }}" style="max-width: 100px;">
                             @else
                                 <p>Pas d'image</p>
                             @endif
                         </td>
+                        <td>{{ $sousfamille->libelle }}</td>
+                        
                         <td>
+
                             @if ($sousfamille->famille)
                                 {{ $sousfamille->famille->libelle }}
-                             @else
+                            @else
                                 <span class="text-muted">Aucune famille associée</span>
-                             @endif
-</td>
+                            @endif
+                        </td>
+
+
                         <td>
-                            <a href="{{ route('sousfamilles.edit', $sousfamille->id) }}" class="btn btn-primary btn-sm">Modifier</a>
+                            <div class="flex space-x-4">
+                            <a href="{{ route('sousfamilles.edit', $sousfamille->id) }}" class="text-blue-500 hover:text-blue-700">
+                            <i class="fas fa-pen text-2xl"></i>
+                            </a>
                             <form action="{{ route('sousfamilles.destroy', $sousfamille->id) }}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette sous-famille ?')">Supprimer</button>
+                                                            @csrf
+                                                        @method('DELETE')
+                                <button type="submit"  onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette sous-famille ?')"><i class="fas fa-trash text-red-500 text-2xl"></i></button>
                             </form>
+                            </div>
                         </td>
                     </tr>
                 @endforeach
@@ -63,3 +69,13 @@
  </div>
 </div>
 @endsection
+<style>
+    td img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover; /* Assure que l'image remplit l'espace sans être déformée */
+    border-radius: 3px; /* Optionnel : ajoute des bords arrondis pour un meilleur rendu */
+    margin-top: 10px;
+}
+
+</style>  

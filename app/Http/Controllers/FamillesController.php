@@ -11,8 +11,8 @@ class FamillesController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $familles = familles::all();
+    { $familles = familles::orderBy('id', 'desc')->get();
+       
 
         return view('dashboard.familles.index', compact('familles'));
     }

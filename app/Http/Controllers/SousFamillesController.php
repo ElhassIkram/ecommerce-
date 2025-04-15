@@ -13,9 +13,12 @@ class SousFamillesController extends Controller
      */
     public function index()
     {
-        $sousfamilles = sous_familles::all();
-        return view('dashboard.sousfamilles.index', compact('sousfamilles'));
+        $sousfamilles = sous_familles::orderBy('id', 'desc')->get();
+        $familles = familles::all();
+        return view('dashboard.sousfamilles.index', compact('sousfamilles', 'familles'));
     }
+    
+    
 
     public function create()
     {

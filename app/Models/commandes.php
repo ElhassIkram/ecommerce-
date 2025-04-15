@@ -20,6 +20,19 @@ class commandes extends Model
 
     public function detailsCommandes()
     {
-        return $this->hasMany(DetailsCommande::class);
+        return $this->hasMany(details_commandes::class);
     }
+    public function user()
+{
+    return $this->belongsTo(User::class);
+}
+
+public function modeReglement()
+{
+    return $this->belongsTo(mode_reglements::class, 'mode_reglements_id');
+}
+public function etat()
+{
+    return $this->belongsTo(etats::class);
+}
 }

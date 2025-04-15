@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('tva');
             $table->string('description');
             $table->string('image');
+            $table->float('stock', 10, 2)->default(0);
             $table->foreignId('sous_famille_id')->constrained()->cascadeOnDelete();
             $table->foreignId('marque_id')->constrained()->cascadeOnDelete();
             $table->foreignId('unite_id')->constrained()->cascadeOnDelete();
