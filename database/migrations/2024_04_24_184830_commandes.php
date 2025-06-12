@@ -16,9 +16,9 @@ return new class extends Migration
             $table->date('date');
             $table->time('time');
             $table->boolean('regle');
-            $table->foreignId('mode_reglements_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('etat_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('mode_reglements_id')->constrained();
+            $table->foreignId('etat_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
           }); 
     }

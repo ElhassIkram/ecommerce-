@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('details_commandes', function (Blueprint $table){
             $table->id();
-            $table->foreignId('commande_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('produit_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('commande_id')->constrained();
+            $table->foreignId('produit_id')->constrained();
             $table->integer('quantite');
             $table->integer('prix_ht');
             $table->integer('tva');

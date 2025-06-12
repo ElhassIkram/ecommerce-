@@ -12,7 +12,7 @@ class ModeReglementsController extends Controller
      */
     public function index()
     {
-        $modereglements = mode_reglements::all();
+        $modereglements = mode_reglements::orderBy('id', 'desc')->get();
         return view('dashboard.modereglements.index', compact('modereglements'));
     }
 

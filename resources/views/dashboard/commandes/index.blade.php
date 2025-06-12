@@ -41,7 +41,7 @@
                 @foreach ($commandes as $commande)
                     <tr>
                         <td>{{ $commande->date }}</td>
-                        <td>{{ $commande->heure }}</td>
+                        <td>{{ $commande-> time }}</td>
                         <td>
                             <span class="badge {{ $commande->regle ? 'bg-success' : 'bg-secondary' }}">
                                 {{ $commande->regle ? 'Oui' : 'Non' }}
