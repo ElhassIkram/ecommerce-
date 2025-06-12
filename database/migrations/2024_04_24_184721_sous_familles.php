@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('libelle');
             $table->string('image');
-            $table->foreignId('famille_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('famille_id')->constrained();
             $table->timestamps();
         });
     }

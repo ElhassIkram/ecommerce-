@@ -70,10 +70,17 @@ class FamillesController extends Controller
         return redirect()->route('familles.index')->with('success', 'Famille mise à jour avec succès.');
     }
 
-    public function destroy(familles $famille)
+    public function destroy(Familles $famille)
     {
-        $famille->delete();
-
-        return redirect()->route('familles.index')->with('success', 'Famille supprimée avec succès.');
+        try {
+            $famille->delete();
+    
+            return redirect()->route('familles.index')
+                             ->with('success', 'Famille supprimée avec succès.');
+        } catch (\Exception $e) {
+            return redirect()->route('familles.index')
+                             ->with('error', 'Erreur lors de la suppression . ' );
+        }
     }
+    
 }

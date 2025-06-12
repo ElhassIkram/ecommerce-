@@ -12,7 +12,7 @@ class EtatsController extends Controller
      */
     public function index()
     {
-        $etats = etats::all();
+        $etats = etats::orderBy('id', 'desc')->get();
         return view('dashboard.etats.index', compact('etats'));
     }
 

@@ -24,6 +24,11 @@
                 {{ session('success') }}
             </div>
         @endif
+        @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
 
         <table class="table">
             <thead>
@@ -47,7 +52,7 @@
                         <td>{{ $famille->libelle }}</td>
                        
                         <td>
-                            <a href="{{ route('familles.show', $famille->id) }}" class="btn btn-info">Voir</a>
+                            <!-- <a href="{{ route('familles.show', $famille->id) }}" class="btn btn-info">Voir</a> -->
                             <a href="{{ route('familles.edit', $famille->id) }}" class="btn btn-primary">Modifier</a>
                             <form action="{{ route('familles.destroy', $famille->id) }}" method="POST" style="display: inline;">
                                 @csrf

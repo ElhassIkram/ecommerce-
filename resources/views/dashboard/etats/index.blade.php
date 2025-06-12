@@ -18,7 +18,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            
                             <th>État</th>
                             <th>Actions</th>
                         </tr>
@@ -26,7 +26,7 @@
                     <tbody>
                         @foreach ($etats as $etat)
                             <tr>
-                                <td>{{ $etat->id }}</td>
+                               
                                 <td>{{ $etat->etat }}</td>
                                 <td>
                                     <a href="{{ route('etats.show', $etat->id) }}" class="btn btn-info btn-sm">Voir</a>
