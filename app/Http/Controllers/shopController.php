@@ -35,12 +35,16 @@ class shopController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
-    {
-        $produit = produits::Find($id);
-        return \view('interface.shop',\compact('produit'));
-    }
+   public function show($id)
+{
+    // It is safer to use findOrFail to handle invalid IDs
+    $produit = produits::findOrFail($id); 
+    return view('interface.shop', compact('produit'));
+}
 
+
+
+    
     /**
      * Show the form for editing the specified resource.
      */

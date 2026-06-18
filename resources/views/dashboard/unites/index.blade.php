@@ -12,15 +12,19 @@
                 <div class="card">
                     <div class="card-header">Liste des Unités</div>
 
-                    <div class="card-body">
-                        @if (session('success'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('success') }}
-                            </div>
-                        @endif
+                    
 
                         <a href="{{ route('unites.create') }}" class="btn btn-primary mb-3">Ajouter une Unité</a>
-
+ @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
                         <table class="table">
                             <thead>
                                 <tr>

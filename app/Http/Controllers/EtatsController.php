@@ -90,11 +90,22 @@ class EtatsController extends Controller
      * @param  \App\Models\Etat  $etat
      * @return \Illuminate\Http\Response
      */
-    public function destroy(etats $etat)
-    {
+    public function destroy($id)
+{
+    try {
+        // البحث عن السجل أولاً
+        $etat = etats::findOrFail($id);
+        
+        // محاولة الحذف
         $etat->delete();
 
         return redirect()->route('etats.index')
-            ->with('success', 'État supprimé avec succès.');
+                         ->with('success', 'État supprimé avec succès.');
+                         
+    } catch (\Exception $e) {
+        // التعامل مع أخطاء قاعدة البيانات (مثل محاولة حذف سجل مرتبط بجدول آخر)
+        return redirect()->route('etats.index')
+                         ->with('error', 'Erreur lors de la suppression de l\'état : il est peut-être utilisé ailleurs.');
     }
+}
 }

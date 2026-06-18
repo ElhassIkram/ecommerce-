@@ -12,9 +12,16 @@
 
             <a href="{{ route('etats.create') }}" class="btn btn-primary mb-3">Ajouter un État</a>
 
-            @if ($etats->isEmpty())
-                <p>Aucun état disponible pour le moment.</p>
-            @else
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
                 <table class="table">
                     <thead>
                         <tr>
@@ -41,7 +48,7 @@
                         @endforeach
                     </tbody>
                 </table>
-            @endif
+           
         </div>
     </div>
 </div>

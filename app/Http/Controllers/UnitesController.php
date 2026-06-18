@@ -104,11 +104,19 @@ public function show($id)
      * @param  \App\Models\Unites  $unites
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Unites $unite)
+   public function destroy(Unites $unite)
 {
-    $unite->delete();
+    try {
+        $unite->delete();
 
-    return redirect()->route('unites.index')
-        ->with('success', 'Unité supprimée avec succès.');
+        return redirect()->route('unites.index')
+                         ->with('success', 'Unité supprimée avec succès.');
+                         
+    } catch (\Exception $e) {
+        // Redirect back with an error message if the deletion fails
+        // (e.g., if the unit is being used by another record)
+        return redirect()->route('unites.index')
+                         ->with('error', 'Erreur lors de la suppression de l\'unité.');
+    }
 }
 }

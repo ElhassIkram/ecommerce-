@@ -10,14 +10,19 @@
 
         <h1>Liste des Sous-Familles</h1>
 
-        @if(session('success'))
+      
+
+        <a href="{{ route('sousfamilles.create') }}" class="btn btn-primary mb-3">Ajouter une Sous-Famille</a>
+ @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
-
-        <a href="{{ route('sousfamilles.create') }}" class="btn btn-primary mb-3">Ajouter une Sous-Famille</a>
-
+        @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
         <table class="table">
             <thead>
                 <tr>

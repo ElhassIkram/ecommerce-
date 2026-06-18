@@ -74,10 +74,22 @@ class SousFamillesController extends Controller
         return redirect()->route('sousfamilles.index')->with('success', 'Sous-famille mise à jour avec succès.');
     }
 
-    public function destroy($id)
-    {
-        $sousfamille = sous_familles::findOrFail($id);
-        $sousfamille->delete();
-        return redirect()->route('sousfamilles.index')->with('success', 'Sous-famille supprimée avec succès.');
+   public function destroy($id)
+{
+    try {
+        // Find the record first
+        $sousFamille = sous_familles::findOrFail($id);
+        
+        // Attempt to delete
+        $sousFamille->delete();
+
+        return redirect()->route('sousfamilles.index')
+                         ->with('success', 'Sous-famille supprimée avec succès.');
+                         
+    } catch (\Exception $e) {
+        // Handle potential database errors (e.g., foreign key constraint violations)
+        return redirect()->route('sousfamilles.index')
+                         ->with('error', 'Erreur lors de la suppression de la sous-famille.');
     }
+}
 }
