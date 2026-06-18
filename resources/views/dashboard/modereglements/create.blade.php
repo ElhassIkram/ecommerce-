@@ -1,32 +1,58 @@
+<!-- resources/views/modereglements/create.blade.php -->
+
 @extends('layouts.dashboard')
 
+@section('content')
 
-@section('content') 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un Mode de Règlement</title>
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-</head>
-<body>
 <div id="app">
     <div class="main-wrapper main-wrapper-1">
-    <div class="main-content">
-    <h1>Ajouter un Mode de Règlement</h1>
-    <form method="POST" action="{{ route('modereglements.store') }}">
-        @csrf
-        <label for="mode-reglement">Mode de Règlement:</label><br>
-        <input type="text" id="mode-reglement" name="mode-reglement"><br><br>
+        <div class="main-content">
 
-        <button type="submit">Ajouter</button>
-    </form>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+
+                    <div class="card">
+
+                        <div class="card-header">
+                            Ajouter un Mode de Règlement
+                        </div>
+
+                        <div class="card-body">
+
+                            <form action="{{ route('modereglements.store') }}" method="POST">
+                                @csrf
+
+                                <div class="form-group">
+                                    <label for="mode-reglement">Mode de Règlement</label>
+
+                                    <input type="text"
+                                           class="form-control @error('mode-reglement') is-invalid @enderror"
+                                           id="mode-reglement"
+                                           name="mode-reglement"
+                                           value="{{ old('mode-reglement') }}">
+
+                                    @error('mode-reglement')
+                                        <div class="text-danger">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">
+                                    Ajouter
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
     </div>
-    </div>
-    </div>
-    <!-- Include Bootstrap JS -->
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-</body>
-</html>
+</div>
+
 @endsection

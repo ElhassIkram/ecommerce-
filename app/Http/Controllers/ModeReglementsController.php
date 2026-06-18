@@ -21,6 +21,7 @@ class ModeReglementsController extends Controller
     {
         return view('dashboard.modereglements.create');
     }
+    
 
     public function store(Request $request)
     {
@@ -47,27 +48,29 @@ class ModeReglementsController extends Controller
         return view('dashboard.modereglements.show', compact('modereglement'));
     }
 
-   
-public function edit(mode_reglements $modereglement)
+  public function edit($id)
 {
+    $modereglement = mode_reglements::findOrFail($id);
+
     return view('dashboard.modereglements.edit', compact('modereglement'));
 }
+ 
 
-
-public function update(Request $request, mode_reglements $modereglement)
+public function update(Request $request, $id)
 {
     $request->validate([
-        'mode-reglement' => 'required|string',
+        'mode_reglement' => 'required|string',
     ]);
 
+    $modereglement = mode_reglements::findOrFail($id);
+
     $modereglement->update([
-        'mode-reglement' => $request->input('mode-reglement'),
+        'mode_reglements' => $request->mode_reglement,
     ]);
 
     return redirect()->route('modereglements.index')
-        ->with('success', 'Mode de règlement mis à jour avec succès.');
+        ->with('success', 'Mode de règlement modifié avec succès.');
 }
-
 
 
   

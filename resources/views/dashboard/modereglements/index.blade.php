@@ -4,24 +4,28 @@
 <div id="app">
     <div class="main-wrapper main-wrapper-1">
         <div class="main-content">
-            <div class="container mt-4">
-                <h2 class="mb-4">Liste des Modes de Règlement</h2>
+            <div class="card">
+                <div class="card-header">Liste des Modes de Règlement</div>
+               <div class="card-body">
 
-                <a href="{{ route('modereglements.create') }}" class="btn btn-success mb-3">Ajouter un Mode de Règlement</a>
+                <a href="{{ route('modereglements.create') }}" class="btn btn-primary mb-3">Ajouter un Mode de Règlement</a>
 
                 @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                        @endif
 
-                @if($modereglements->isEmpty())
-                    <div class="alert alert-info">Aucun mode de règlement disponible pour le moment.</div>
-                @else
-                    <table class="table table-bordered table-striped">
-                        <thead class="thead-dark">
+            
+                    <table class="table">
+                        <thead >
                             <tr>
-                               
+                               <th scope="col">#</th>
                                 <th>Mode de Règlement</th>
                                 <th>Actions</th>
                             </tr>
@@ -29,22 +33,35 @@
                         <tbody>
                             @foreach ($modereglements as $modereglement)
                                 <tr>
-                                    
+                                    <th scope="row">{{ $modereglement->id }}</th>
                                     <td>{{ $modereglement->mode_reglements }}</td>
                                     <td>
-                                        <a href="{{ route('modereglements.show', $modereglement->id) }}" class="btn btn-info btn-sm">Voir</a>
-                                        <a href="{{ route('modereglements.edit', $modereglement->id) }}" class="btn btn-primary btn-sm">Modifier</a>
-                                        <form action="{{ route('modereglements.destroy', $modereglement->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce mode de règlement ?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                                        </form>
+                                         <!-- <a href="{{ route('modereglements.show', $modereglement->id) }}" class="btn btn-info btn-sm">Voir</a> -->
+                                         <!-- Modifier -->
+                                         <a href="{{ route('modereglements.edit', $modereglement->id) }}"  class="text-blue-500 hover:text-blue-700 me-8">
+                                                <i class="fas fa-pen text-2xl"></i>
+                                            </a>
+                                            <!-- Supprimer -->
+                                    <form action="{{ route('modereglements.destroy', $modereglement->id) }}"
+                                        method="POST" style="display: inline;
+                                        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce mode de règlement ?');">
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit"
+                                                class="text-danger border-0 bg-transparent">
+                                            <i class="fas fa-trash text-2xl"></i>
+                                        </button>
+
+                                    </form>
+
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                @endif
+              
             </div>
         </div>
     </div>

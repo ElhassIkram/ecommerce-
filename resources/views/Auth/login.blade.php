@@ -17,8 +17,8 @@
         <label>Password</label>
     </div>
     <div class="button-wrapper">
-        <button class="button-transparent sing-in" type="submit">Login</button>
-        <button class="sing-up" type="submit">Register</button>
+        <button class="button-transparent sing-in" type="submit">Register</button>
+        <button class="sing-up" type="submit">Login</button>
     </div>
 </form>
 
@@ -63,8 +63,8 @@
             <label>Password</label>
         </div>
         <div class="button-wrapper">
-            <button class="sing-in" type="submit">Register</button>
-            <button class="button-transparent sing-up" type="submit">Login</button>
+            <button class="sing-in" type="submit">Login</button>
+            <button class="button-transparent sing-up" type="submit">Register</button>
         </div>
     </form>
 </div>

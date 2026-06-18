@@ -12,7 +12,7 @@ class UnitesController extends Controller
      */
     public function index()
     {
-        $unites = Unites::all();
+        $unites = Unites::orderBy('id', 'desc')->get();
         return view('dashboard.unites.index', compact('unites'));
     }
 
@@ -44,6 +44,12 @@ class UnitesController extends Controller
             ->with('success', 'Unité ajoutée avec succès.');
     }
 
+      public function edit($id)
+    {
+        $unite = Unites::findOrFail($id);
+        return view('dashboard.unites.edit', compact('unite'));
+    }
+
     /**
      * Display the specified resource.
      *
@@ -64,11 +70,7 @@ public function show($id)
      * @param  \App\Models\Unites  $unites
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $unite = Unites::findOrFail($id);
-        return view('dashboard.unites.edit', compact('unite'));
-    }
+  
 
     /**
      * Update the specified resource in storage.
