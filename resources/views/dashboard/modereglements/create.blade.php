@@ -19,30 +19,29 @@
 
                         <div class="card-body">
 
-                            <form action="{{ route('modereglements.store') }}" method="POST">
-                                @csrf
+                        <form action="{{ route('modereglements.store') }}" method="POST">
+                                    @csrf
 
-                                <div class="form-group">
-                                    <label for="mode-reglement">Mode de Règlement</label>
+                                    <div class="form-group">
+                                        <label for="mode_reglements">Mode de Règlement</label>
 
-                                    <input type="text"
-                                           class="form-control @error('mode-reglement') is-invalid @enderror"
-                                           id="mode-reglement"
-                                           name="mode-reglement"
-                                           value="{{ old('mode-reglement') }}">
+                                        <input type="text"
+                                            class="form-control @error('mode_reglements') is-invalid @enderror"
+                                            id="mode_reglements"
+                                            name="mode_reglements"
+                                            value="{{ old('mode_reglements') }}">
 
-                                    @error('mode-reglement')
-                                        <div class="text-danger">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
+                                        @error('mode_reglements')
+                                            <div class="text-danger">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
 
-                                <button type="submit" class="btn btn-primary">
-                                    Ajouter
-                                </button>
-
-                            </form>
+                            <button type="submit" class="btn btn-primary">
+                                Ajouter
+                            </button>
+                        </form>
 
                         </div>
 

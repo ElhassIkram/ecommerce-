@@ -50,13 +50,7 @@ class UnitesController extends Controller
         return view('dashboard.unites.edit', compact('unite'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Unites  $unites
-     * @return \Illuminate\Http\Response
-     */
-    // Dans votre contrôleur
+   
 public function show($id)
 {
     $unite = Unites::findOrFail($id); // Supposons que votre modèle s'appelle Unite
@@ -64,21 +58,7 @@ public function show($id)
 }
 
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Unites  $unites
-     * @return \Illuminate\Http\Response
-     */
-  
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Unites  $unites
-     * @return \Illuminate\Http\Response
-     */
+   
     public function update(Request $request, $id)
 {
     // Valider les données reçues du formulaire
@@ -100,12 +80,7 @@ public function show($id)
     return redirect()->route('unites.index')->with('success', 'L\'unité a été mise à jour avec succès.');
 }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Unites  $unites
-     * @return \Illuminate\Http\Response
-     */
+    
    public function destroy(Unites $unite)
 {
     try {

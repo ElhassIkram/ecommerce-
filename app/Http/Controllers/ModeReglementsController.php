@@ -24,23 +24,18 @@ class ModeReglementsController extends Controller
     
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'mode-reglement' => 'required|string',
-        ]);
-      
-    // Ajout explicite de la valeur 'mode-reglement' à 'mode_reglements'
-    $validatedData = $request->only('mode-reglement');
+{
+    $request->validate([
+        'mode_reglements' => 'required|string',
+    ]);
 
-        mode_reglements::create([
-            'mode_reglements' => $validatedData['mode-reglement'],  // Utiliser la valeur validée
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+    mode_reglements::create([
+        'mode_reglements' => $request->mode_reglements,
+    ]);
 
-        return redirect()->route('modereglements.index')
-            ->with('success', 'Mode de règlement ajouté avec succès.');
-    }
+    return redirect()->route('modereglements.index')
+        ->with('success', 'Mode de règlement ajouté avec succès.');
+}
 
    
     public function show(mode_reglements $modereglement)
@@ -48,24 +43,24 @@ class ModeReglementsController extends Controller
         return view('dashboard.modereglements.show', compact('modereglement'));
     }
 
-  public function edit($id)
+public function edit($id)
 {
     $modereglement = mode_reglements::findOrFail($id);
-
     return view('dashboard.modereglements.edit', compact('modereglement'));
 }
  
 
+
 public function update(Request $request, $id)
 {
     $request->validate([
-        'mode_reglement' => 'required|string',
+        'mode_reglements' => 'required|string',
     ]);
 
     $modereglement = mode_reglements::findOrFail($id);
 
     $modereglement->update([
-        'mode_reglements' => $request->mode_reglement,
+        'mode_reglements' => $request->mode_reglements,
     ]);
 
     return redirect()->route('modereglements.index')
@@ -74,11 +69,18 @@ public function update(Request $request, $id)
 
 
   
-    public function destroy(mode_reglements $modereglement)
-    {
+  public function destroy(mode_reglements $modereglement)
+{
+    try {
         $modereglement->delete();
 
         return redirect()->route('modereglements.index')
             ->with('success', 'Mode de règlement supprimé avec succès.');
+
+    } catch (\Exception $e) {
+
+        return redirect()->route('modereglements.index')
+            ->with('error', 'Erreur lors de la suppression du mode de règlement.');
     }
+}
 }

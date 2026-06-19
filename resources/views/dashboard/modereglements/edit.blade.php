@@ -1,33 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Mode de Règlement</title>
-</head>
-<body>
-    <h1>Edit Mode de Règlement</h1>
+@extends('layouts.dashboard')
 
-    @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+@section('content')
+<div id="app">
+    <div class="main-wrapper main-wrapper-1">
+        <div class="main-content">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            Modifier Mode de Règlement
+                        </div>
+
+                        <div class="card-body">
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <form action="{{ route('modereglements.update', $modereglement->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="form-group">
+                                    <label for="mode_reglement">Mode de Règlement :</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="mode_reglements"
+                                        value="{{ old('mode_reglements', $modereglement->mode_reglements) }}"
+                                    >
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">
+                                    Enregistrer les modifications
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
-    @endif
-
-    <form method="POST" action="{{ route('modereglements.update', $modereglement->id) }}">
-        @csrf
-        @method('PUT')
-
-        <div>
-            <label for="mode_reglement">Mode de Règlement:</label>
-            <input type="text" id="mode_reglement" name="mode_reglement" value="{{ old('mode_reglement', $modereglement->{'mode-reglement'}) }}">
-        </div>
-
-        <button type="submit">Update</button>
-    </form>
-</body>
-</html>
+    </div>
+</div>
+@endsection
