@@ -12,7 +12,7 @@ class MarquesController extends Controller
      */
     public function index()
     {
-        $marques = marques::all();
+        $marques = marques::orderBy('id', 'desc')->get();
         return view('dashboard.marques.index', compact('marques'));
     }
 
@@ -28,16 +28,18 @@ class MarquesController extends Controller
 
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'marque' => 'required|string',
-        ]);
+{
+    $request->validate([
+        'marque' => 'required|string|max:255',
+    ]);
 
-        marques::create($request->all());
+    marques::create([
+        'marque' => $request->marque,
+    ]);
 
-        return redirect()->route('marques.index')
-            ->with('success', 'Marque ajoutée avec succès.');
-    }
+    return redirect()->route('marques.index')
+        ->with('success', 'Marque ajoutée avec succès.');
+}
 
     /**
      * Display the specified resource.
@@ -86,11 +88,18 @@ class MarquesController extends Controller
      * @param  \App\Models\Marque  $marque
      * @return \Illuminate\Http\Response
      */
-    public function destroy(marques $marque)
-    {
+ public function destroy(marques $marque)
+{
+    try {
         $marque->delete();
 
         return redirect()->route('marques.index')
             ->with('success', 'Marque supprimée avec succès.');
+
+    } catch (\Exception $e) {
+
+        return redirect()->route('marques.index')
+            ->with('error', 'Erreur lors de la suppression de la marque.');
     }
+}
 }

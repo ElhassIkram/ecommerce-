@@ -30,7 +30,7 @@ class SousFamillesController extends Controller
     {
         $request->validate([
             'libelle' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20480',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20480',
             'famille_id' => 'required|exists:familles,id',
         ]);
     

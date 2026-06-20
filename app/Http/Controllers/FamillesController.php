@@ -26,7 +26,7 @@ class FamillesController extends Controller
     {
         $request->validate([
             'libelle' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20480',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20480',
         ]);
 
         $validatedData = $request->only('libelle');
