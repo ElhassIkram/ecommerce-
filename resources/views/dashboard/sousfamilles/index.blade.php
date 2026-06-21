@@ -49,7 +49,7 @@
                                         @if($sousfamille->image)
                                             <img src="{{ asset('storage/' . $sousfamille->image) }}"
                                                  alt="{{ $sousfamille->libelle }}"
-                                                 style="width:70px;height:70px;object-fit:cover;border-radius:5px;">
+                                                 style="width:70px;height:70px;object-fit:cover;border-radius:5px;margin-bottom:10px;">
                                         @else
                                             <span class="text-muted">Pas d'image</span>
                                         @endif

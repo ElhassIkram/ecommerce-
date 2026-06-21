@@ -1,77 +1,105 @@
+<!-- resources/views/produits/index.blade.php -->
+
 @extends('layouts.dashboard')
 
-@section('content') 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des Produits</title>
-</head>
-<body>
-<div >
-    <div class="main-wrapper">
+@section('content')
+
+<div id="app">
+    <div class="main-wrapper main-wrapper-1">
         <div class="main-content">
-            <h1>Liste des Produits</h1>
 
-            <a class="btn btn-info" href="{{ route('produits.create') }}">Ajouter un Produit</a>
+            <div class="card">
+                <div class="card-header">Liste des Produits</div>
 
-            @if ($produits->isEmpty())
-                <p>Aucun produit disponible pour le moment.</p>
+                <div class="card-body">
+
+                    <a href="{{ route('produits.create') }}" class="btn btn-primary mb-3">
+                        Ajouter un Produit
+                    </a>
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+                    @if ($produits->isEmpty())
+                        <div class="alert alert-warning">
+                            Aucun produit disponible pour le moment.
+                        </div>
+                    @endif
+
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <div class="table-responsive">
+                        <table class="table">
+                           <thead>
+                                <tr>
+                                    
+                                    <th>Image</th>
+                                    <th>Code Barre</th>
+                                    <th>Désignation</th>
+                                    <th>Prix HT</th>
+                                    <th>TVA</th>
+                                    <th>Description</th>
+                                    <th>Marque</th>
+                                    <th>Sous-Famille</th>
+                                    <th>Unité</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+<tbody>
+@foreach ($produits as $produit)
+    <tr>
+
+        <td>
+            @if($produit->image)
+                <img src="{{ asset('storage/' . $produit->image) }}"
+                     style="width:70px;height:70px;object-fit:cover;border-radius:5px;margin-bottom:10px;">
             @else
-                <table class="table table-bordered mt-3">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Désignation</th>
-                            <th>Prix HT</th>
-                            <th>Sous-Famille</th>
-                            <th>Unité</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($produits as $produit)
-                            <tr>
-                                <td>
-                                    @if($produit->image)
-                                        <img src="{{ asset('storage/' . $produit->image) }}" alt="{{ $produit->designation }}" style="width: 70px; height: 70px; object-fit: cover;">
-                                    @else
-                                        <p>Pas d'image</p>
-                                    @endif
-                                </td>
-                                <td>{{ $produit->designation }}</td>
-                                <td>{{ $produit->prix_ht }}.00 DH</td>
-                                <td>{{ optional($produit->sousFamille)->libelle }}</td>
-                                <td>{{ optional($produit->unite)->unite }}</td>
-                                <td>
-                                    <a href="{{ route('produits.show', $produit->id) }}" class="btn btn-info btn-sm">Voir</a>
-                                    <a href="{{ route('produits.edit', $produit->id) }}" class="btn btn-primary btn-sm">Modifier</a>
-                                    <form action="{{ route('produits.destroy', $produit->id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <span class="text-muted">Pas d'image</span>
             @endif
+        </td>
+
+        <td>{{ $produit->codebarre }}</td>
+        <td>{{ $produit->designation }}</td>
+        <td>{{ $produit->prix_ht }} DH</td>
+        <td>{{ $produit->tva }}%</td>
+        <td>{{ $produit->description }}</td>
+
+        <td>{{ optional($produit->marque)->marque }}</td>
+        <td>{{ optional($produit->sousFamille)->libelle }}</td>
+        <td>{{ optional($produit->unite)->unite }}</td>
+
+        <td>
+            <a href="{{ route('produits.edit', $produit->id) }}" class="text-blue-500 hover:text-blue-700 me-8">
+                <i class="fas fa-pen text-2xl"></i>
+            </a>
+
+            <form action="{{ route('produits.destroy', $produit->id) }}"
+                  method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+
+                <button onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette produit ?')"
+                class="text-red-500 hover:text-red-700">
+                    <i class="fas fa-trash text-2xl"></i>
+                </button>
+            </form>
+        </td>
+    </tr>
+@endforeach
+</tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
 
-<style>
-    .table th, .table td {
-        text-align: center;
-    }
-    .table img {
-        width: 70px;
-        height: 70px;
-        object-fit: cover;
-    }
-</style>
-</body>
-</html>
 @endsection

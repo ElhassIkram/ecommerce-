@@ -30,4 +30,9 @@ class produits extends Model
     {
         return $this->hasMany(DetailsCommande::class);
     }
+
+    public function marque()
+{
+    return $this->belongsTo(marques::class, 'marque_id');
+}
 }

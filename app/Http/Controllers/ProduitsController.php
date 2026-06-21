@@ -15,7 +15,7 @@ class ProduitsController extends Controller
      */
     public function index()
     {
-        $produits = produits::all();
+        $produits = produits::orderBy('id', 'desc')->get();
         return view('dashboard.produits.index', compact('produits'));
     }
 
@@ -68,26 +68,33 @@ class ProduitsController extends Controller
     }
 
     public function update(Request $request, produits $produit)
-    {
-        $request->validate([
-            'codebarre' => 'required|numeric',
-            'designation' => 'required|string',
-            'prix_ht' => 'required|numeric',
-            'tva' => 'required|numeric',
-            'sous_famille_id' => 'required|exists:sousfamilles,id',
-            'marque_id' => 'required|exists:marques,id',
-            'unite_id' => 'required|exists:unites,id',
-        ]);
+{
+    $request->validate([
+        'codebarre' => 'required|numeric',
+        'designation' => 'required|string',
+        'prix_ht' => 'required|numeric',
+        'tva' => 'required|numeric',
+        'sous_famille_id' => 'required|exists:sous_familles,id',
+        'marque_id' => 'required|exists:marques,id',
+        'unite_id' => 'required|exists:unites,id',
+    ]);
 
-        $produit->update($request->all());
+    $produit->update($request->all());
 
-        return redirect()->route('produits.index')->with('success', 'Produit mis à jour avec succès.');
-    }
-
-    public function destroy(produits $produit)
-    {
+    return redirect()->route('produits.index')
+        ->with('success', 'Produit mis à jour avec succès.');
+}
+   public function destroy(produits $produit)
+{
+    try {
         $produit->delete();
 
-        return redirect()->route('produits.index')->with('success', 'Produit supprimé avec succès.');
+        return redirect()->route('produits.index')
+                         ->with('success', 'Produit supprimé avec succès.');
+                         
+    } catch (\Exception $e) {
+        return redirect()->route('produits.index')
+                         ->with('error', 'Erreur lors de la suppression du produit.');
     }
+}
 }
