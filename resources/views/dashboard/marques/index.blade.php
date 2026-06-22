@@ -29,7 +29,7 @@
                         </div>
                     @endif
 
-                    <table class="table">
+                    <table class="table"  id="table-1">
                         <thead>
                             <tr>
                                 <th>Marque</th>

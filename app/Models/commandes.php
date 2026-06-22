@@ -17,11 +17,19 @@ class commandes extends Model
         'user_id',
     ];
 
+public function getTotalAttribute()
+{
+    return $this->detailsCommandes->sum(function ($d) {
+        $ht = $d->quantite * $d->prix_ht;
+        return $ht + ($ht * $d->tva / 100);
+    });
+}
 
-    public function detailsCommandes()
-    {
-        return $this->hasMany(details_commandes::class);
-    }
+
+public function detailsCommandes()
+{
+    return $this->hasMany(details_commandes::class, 'commande_id');
+}
     public function user()
 {
     return $this->belongsTo(User::class);

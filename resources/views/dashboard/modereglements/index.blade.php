@@ -21,8 +21,8 @@
                         </div>
                         @endif
 
-            
-                    <table class="table">
+             <!-- <table class="table"  id="table-1">hada ghadi n7tajo ila bghit ndir search fhad table -->
+                    <table class="table"  >
                         <thead >
                             <tr>
                                <th scope="col">#</th>
