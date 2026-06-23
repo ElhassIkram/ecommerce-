@@ -28,10 +28,11 @@
             <!-- navbar -->
             @include('admin.nav')
 
+                 @yield('content')
+                 
             <!-- sidebar -->
             @include('admin.sidebar')
 
-            
         </div>
     </div>
     <!-- General JS Scripts -->

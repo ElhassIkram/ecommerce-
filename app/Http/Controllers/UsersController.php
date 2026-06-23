@@ -12,7 +12,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy('id', 'desc')->get();
         return view('users.index', compact('users'));
     }
 
@@ -26,90 +26,80 @@ class UsersController extends Controller
         return view('users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nom' => 'required|string',
-            'prenom' => 'required|string',
-            'adresse' => 'required|string',
-            'ville' => 'required|string',
-            'tell' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8',
-            'isAdmin' => 'required|boolean',
-        ]);
+ 
+public function store(Request $request)
+{
+    // 1. إضافة الحقول الجديدة للتحقق (Validation)
+    $request->validate([
+        'nom' => 'required|string|max:255',
+        'prenom' => 'required|string|max:255',
+        'adresse' => 'required|string|max:255', // أضفنا هذا
+        'ville' => 'required|string|max:255',   // أضفنا هذا
+        'tel' => 'required|string|max:20',      // أضفنا هذا
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|string|min:8|confirmed',
+        'isAdmin' => 'required|boolean',
+    ]);
 
-        User::create($request->all());
+    // 2. إرسال جميع الحقول إلى قاعدة البيانات
+    User::create([
+        'nom' => $request->nom,
+        'prenom' => $request->prenom,
+        'adresse' => $request->adresse, // تأكد من إضافتها هنا
+        'ville' => $request->ville,     // تأكد من إضافتها هنا
+        'tel' => $request->tel,         // تأكد من إضافتها هنا
+        'email' => $request->email,
+        'password' => bcrypt($request->password),
+        'isAdmin' => $request->isAdmin,
+    ]);
 
-        return redirect()->route('users.index')
-            ->with('success', 'User created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        return view('users.show', compact('user'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
+    return redirect()->route('users.index')
+                     ->with('success', 'Utilisateur ajouté avec succès.');
+}
+    
     public function edit(User $user)
     {
         return view('users.edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
-    {
-        $request->validate([
-            'nom' => 'required|string',
-            'prenom' => 'required|string',
-            'adresse' => 'required|string',
-            'ville' => 'required|string',
-            'tell' => 'required|string',
-            'email' => 'required|email|unique:users,email,'.$user->id,
-            'password' => 'nullable|string|min:8',
-            'isAdmin' => 'required|boolean',
-        ]);
+    
+  public function update(Request $request, User $user)
+{
+    $request->validate([
+        'nom' => 'required|string|max:255',
+        'prenom' => 'required|string|max:255',
+        'adresse' => 'required|string',
+        'ville' => 'required|string',
+        'tel' => 'required|string',
+        'email' => 'required|email|unique:users,email,'.$user->id,
+        'password' => 'nullable|string|min:8', // nullable مهم جداً هنا
+        'isAdmin' => 'required|boolean',
+    ]);
 
-        $user->update($request->all());
+    $data = $request->except(['password']); // نأخذ كل البيانات إلا كلمة المرور
 
-        return redirect()->route('users.index')
-            ->with('success', 'User updated successfully.');
+    if ($request->filled('password')) {
+        $data['password'] = bcrypt($request->password); // نحدثها فقط إذا كانت موجودة
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
+    $user->update($data);
+
+    return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour avec succès.');
+}
+
+   public function destroy(User $user)
+{
+    try {
         $user->delete();
 
         return redirect()->route('users.index')
-            ->with('success', 'User deleted successfully.');
+                         ->with('success', 'Utilisateur supprimé avec succès.');
+
+    } catch (\Exception $e) {
+        // Redirection avec un message d'erreur si la suppression échoue
+        // (par exemple, si l'utilisateur est lié à d'autres enregistrements)
+        return redirect()->route('users.index')
+                         ->with('error', 'Erreur lors de la suppression de l\'utilisateur.');
     }
+}
 }

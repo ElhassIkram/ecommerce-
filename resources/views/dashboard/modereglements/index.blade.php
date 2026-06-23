@@ -25,7 +25,7 @@
                     <table class="table"  >
                         <thead >
                             <tr>
-                               <th scope="col">#</th>
+                             
                                 <th>Mode de Règlement</th>
                                 <th>Actions</th>
                             </tr>
@@ -33,7 +33,7 @@
                         <tbody>
                             @foreach ($modereglements as $modereglement)
                                 <tr>
-                                    <th scope="row">{{ $modereglement->id }}</th>
+                                    
                                     <td>{{ $modereglement->mode_reglements }}</td>
                                     <td>
                                          <!-- <a href="{{ route('modereglements.show', $modereglement->id) }}" class="btn btn-info btn-sm">Voir</a> -->

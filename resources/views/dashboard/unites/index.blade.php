@@ -27,7 +27,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
+                                    
                                     <th scope="col">Unité</th>
                                     <th scope="col">Actions</th>
                                 </tr>
@@ -35,7 +35,7 @@
                             <tbody>
                                 @foreach ($unites as $unite)
                                     <tr>
-                                        <th scope="row">{{ $unite->id }}</th>
+                                     
                                         <td>{{ $unite->unite }}</td>
                                         <td>
                                             <!--  <a href="{{ route('unites.show', $unite->id) }}" class="btn btn-info btn-sm">Voir</a> -->

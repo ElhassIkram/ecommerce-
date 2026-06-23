@@ -24,26 +24,24 @@ class AuthController extends Controller
     {
         //
     }
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
-        ]);
+  public function login(Request $request)
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            // Authentication passed, check if the user is an admin
-            if (Auth::user()->isAdmin) {
-                return redirect()->route('dashboard')->with('success', 'You are logged in as admin!');
-            } else {
-                return redirect()->route('home')->with('success', 'You are logged in!');
-            }
+    if (auth()->attempt($credentials)) {
+        // إذا كان Admin صيفطو للـ Dashboard
+        if (auth()->user()->isAdmin == 1) {
+            return redirect()->route('dashboard'); 
         }
-
-        return redirect()->back()->withErrors(['email' => 'These credentials do not match our records.']);
+        // إذا كان Client صيفطو للـ Home
+        return redirect()->route('home');
     }
+
+    return back()->withErrors(['email' => 'Les identifiants sont incorrects.']);
+}
 
 
     /**

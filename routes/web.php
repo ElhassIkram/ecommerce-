@@ -35,7 +35,7 @@ Route::post('/login/store', [AuthController::class, 'store'])->name('user.store'
 Route::get('/login/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-
+Route::middleware(['auth', 'admin'])->group(function () {
 
 // dashboard
 Route::get('/dashboard', [HomeController::class,'index'])->name('dashboard');
@@ -64,7 +64,7 @@ Route::delete('/commandes/{commande}', [CommandesController::class, 'destroy'])-
 Route::get('/users', [UsersController::class, 'index'])->name('users.index');
 Route::get('/users/create', [UsersController::class, 'create'])->name('users.create');
 Route::post('/users', [UsersController::class, 'store'])->name('users.store');
-Route::get('/users/{user}', [UsersController::class, 'show'])->name('users.show');
+
 Route::get('/users/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
 Route::put('/users/{user}', [UsersController::class, 'update'])->name('users.update');
 Route::delete('/users/{user}', [UsersController::class, 'destroy'])->name('users.destroy');
@@ -140,3 +140,4 @@ Route::put('/unites/{unite}', [UnitesController::class, 'update'])->name('unites
 Route::delete('/unites/{unite}', [UnitesController::class, 'destroy'])->name('unites.destroy');
 
 
+});

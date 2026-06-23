@@ -25,6 +25,8 @@ class CartController extends Controller
   
     }
 
+    
+
     public function someControllerMethod()
     {
         // Assuming you have a Cart model or session handling for the cart
@@ -85,39 +87,49 @@ class CartController extends Controller
         return redirect()->route("cart.index")->with('success', 'Product removed from cart successfully!');
     }
 
-    public function placeOrder(Request $request)
-    {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'You need to create an account to place an order.');
-        }
-
-        $cart = session()->get('cart', []);
-        if (empty($cart)) {
-            return redirect()->back()->with('error', 'Your cart is empty!');
-        }
-
-        $commande = Commandes::create([
-            'date' => Carbon::now()->toDateString(),
-            'time' => Carbon::now()->toTimeString(),
-            'regle' => false,
-            'mode_reglements_id' => $request->input('mode_reglements_id'),
-            'etat_id' => $request->input('etat_id'),
-            'user_id' => auth()->id(),
-        ]);
-
-        foreach ($cart as $id => $details) {
-            details_commandes::create([
-                'commande_id' => $commande->id,
-                'produit_id' => $id,
-                'quantite' => $details['quantity'],
-                'prix_ht' => $details['price'],
-                'tva' => 0,
-            ]);
-        }
-
-        session()->forget('cart');
-
-        return redirect()->route('cart.index')->with('success', 'Order placed successfully!');
+ public function placeOrder(Request $request)
+{
+    // 1. التأكد من أن المستخدم مسجل
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'You need to create an account to place an order.');
     }
+
+    // 2. جلب السلة والتأكد من أنها ليست فارغة
+    $cart = session()->get('cart', []);
+    if (empty($cart)) {
+        return redirect()->back()->with('error', 'Your cart is empty!');
+    }
+
+    // 3. إنشاء الطلب في قاعدة البيانات
+    $commande = Commandes::create([
+        'date' => Carbon::now()->toDateString(),
+        'time' => Carbon::now()->toTimeString(),
+        'regle' => false,
+        'mode_reglements_id' => $request->input('mode_reglements_id'),
+        'etat_id' => $request->input('etat_id'),
+        'user_id' => auth()->id(),
+    ]);
+
+    // 4. حفظ تفاصيل الطلب (Items)
+    foreach ($cart as $id => $details) {
+        details_commandes::create([
+            'commande_id' => $commande->id,
+            'produit_id' => $id,
+            'quantite' => $details['quantity'],
+            'prix_ht' => $details['price'],
+            'tva' => 0,
+        ]);
+    }
+
+    // 5. إفراغ السلة
+    session()->forget('cart');
+
+    // 6. إضافة إشعار للمدير (Flash Session)
+    // هذا الميساج سيبقى متاحاً في الجلسة التالية ليراه الأدمن في الـ Dashboard
+    session()->flash('new_order_alert', 'Nouvelle commande reçue ! Client: ' . auth()->user()->nom . ' (' . auth()->user()->email . ')');
+
+    // 7. تحويل المستخدم لصفحة التأكيد
+    return redirect()->route('cart.index')->with('success', 'Order placed successfully!');
+}
 
 }

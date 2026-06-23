@@ -12,7 +12,9 @@
                 </div>
 
                 <div class="card-body">
-
+                    <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">
+                        Ajouter une Sous-Famille
+                    </a>
                     <!-- Success / Error -->
                     @if(session('success'))
                         <div class="alert alert-success">
@@ -38,6 +40,7 @@
                                     <th>Ville</th>
                                     <th>Email</th>
                                     <th>Tél</th>
+                                    <th>Role</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -51,14 +54,17 @@
                                         <td>{{ $user->adresse }}</td>
                                         <td>{{ $user->ville }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>{{ $user->tell }}</td>
+                                        <td>{{ $user->tel }}</td>
+                                        <td>
+                                            @if($user->isAdmin)
+                                                <span class="badge badge-success">Admin</span>
+                                            @else
+                                                <span class="badge badge-secondary">User</span>
+                                            @endif
+                                        </td>
 
                                         <td>
-                                            <!-- Show -->
-                                            <a href="{{ route('users.show', $user->id) }}"
-                                               class="text-blue-500 me-2">
-                                                <i class="fas fa-eye text-lg"></i>
-                                            </a>
+                                        
 
                                             <!-- Edit -->
                                             <a href="{{ route('users.edit', $user->id) }}"
@@ -96,5 +102,6 @@
 
 @endsection
 
-
-
+<!-- 
+el-hassouni987654@gmail.com
+el-hassouni987654 -->
