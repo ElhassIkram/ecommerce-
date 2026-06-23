@@ -139,5 +139,8 @@ Route::get('/unites/{unite}/edit', [UnitesController::class, 'edit'])->name('uni
 Route::put('/unites/{unite}', [UnitesController::class, 'update'])->name('unites.update');
 Route::delete('/unites/{unite}', [UnitesController::class, 'destroy'])->name('unites.destroy');
 
-
+Route::get('/clear-notification', function () {
+    return redirect()->back()->withCookie(cookie()->forget('new_order_alert'));
+})->name('clear.notification');
 });
+

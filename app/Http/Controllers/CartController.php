@@ -110,7 +110,7 @@ class CartController extends Controller
         'user_id' => auth()->id(),
     ]);
 
-    // 4. حفظ تفاصيل الطلب (Items)
+    // 4. حفظ تفاصيل الطلب
     foreach ($cart as $id => $details) {
         details_commandes::create([
             'commande_id' => $commande->id,
@@ -124,12 +124,10 @@ class CartController extends Controller
     // 5. إفراغ السلة
     session()->forget('cart');
 
-    // 6. إضافة إشعار للمدير (Flash Session)
-    // هذا الميساج سيبقى متاحاً في الجلسة التالية ليراه الأدمن في الـ Dashboard
-    session()->flash('new_order_alert', 'Nouvelle commande reçue ! Client: ' . auth()->user()->nom . ' (' . auth()->user()->email . ')');
+    // 6. تخزين الإشعار في الـ Session ليظهر في أي صفحة
+    session()->put('new_order_alert', 'Nouvelle commande #' . $commande->id . ' de la part de ' . auth()->user()->name);
 
-    // 7. تحويل المستخدم لصفحة التأكيد
+    // 7. تحويل المستخدم لصفحة التأكيد مع رسالة نجاح
     return redirect()->route('cart.index')->with('success', 'Order placed successfully!');
 }
-
 }

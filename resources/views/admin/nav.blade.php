@@ -90,22 +90,23 @@
                         <a href="#">Mark All As Read</a>
                     </div>
                 </div>
-              <div class="dropdown-list-content dropdown-list-icons">
-    @if(session('new_order_alert'))
+  <div class="dropdown-list-content dropdown-list-icons">
+    @if(session()->has('new_order_alert'))
         @if(auth()->check() && auth()->user()->isAdmin == 1)
             <a href="{{ route('commandes.index') }}" class="dropdown-item dropdown-item-unread">
                 <div class="dropdown-item-icon bg-info text-white">
                     <i class="fas fa-shopping-cart"></i>
                 </div>
                 <div class="dropdown-item-desc">
-                    Nouvelle commande !
-                    <div class="time text-primary">{{ session('new_order_alert') }}</div>
+                    {{ session('new_order_alert') }}
                 </div>
+            </a>
+            <a href="{{ route('clear.notification') }}" class="dropdown-item text-center text-danger">
+                Effacer
             </a>
         @endif
     @endif
-    
-    </div>
+</div>
                 <div class="dropdown-footer text-center">
                     <a href="#">View All <i class="fas fa-chevron-right"></i></a>
                 </div>
