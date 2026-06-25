@@ -14,6 +14,7 @@ class interfaceController extends Controller
     public function index(Request $request)
     {
         $produits =produits::take(8)->get();
+        
         return view('interface.home',\compact('produits'));
     }
 

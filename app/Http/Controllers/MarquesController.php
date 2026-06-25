@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Storage;
 use App\Models\marques;
 use Illuminate\Http\Request;
 
@@ -27,26 +27,27 @@ class MarquesController extends Controller
     }
 
 
-    public function store(Request $request)
+public function store(Request $request)
 {
     $request->validate([
         'marque' => 'required|string|max:255',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // التقييد بحجم 2 ميجا
     ]);
 
-    marques::create([
-        'marque' => $request->marque,
-    ]);
+    $data = $request->only('marque');
+
+    if ($request->hasFile('image')) {
+        $path = $request->file('image')->store('marques', 'public');
+        $data['image'] = $path;
+    }
+
+    marques::create($data);
 
     return redirect()->route('marques.index')
         ->with('success', 'Marque ajoutée avec succès.');
 }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Marque  $marque
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(marques $marque)
     {
         return view('dashboard.marques.show', compact('marque'));
@@ -70,24 +71,32 @@ class MarquesController extends Controller
      * @param  \App\Models\Marque  $marque
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, marques $marque)
-    {
-        $request->validate([
-            'marque' => 'required|string',
-        ]);
+   public function update(Request $request, marques $marque)
+{
+    $request->validate([
+        'marque' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        $marque->update($request->all());
+    $data = $request->only('marque');
 
-        return redirect()->route('marques.index')
-            ->with('success', 'Marque mise à jour avec succès.');
+    if ($request->hasFile('image')) {
+        
+      if ($marque->image) {
+        Storage::disk('public')->delete($marque->image);
+    }
+        $path = $request->file('image')->store('marques', 'public');
+        $data['image'] = $path;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Marque  $marque
-     * @return \Illuminate\Http\Response
-     */
+    $marque->update($data);
+
+    return redirect()->route('marques.index')
+        ->with('success', 'Marque mise à jour avec succès.');
+}
+   
+
+
  public function destroy(marques $marque)
 {
     try {

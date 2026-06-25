@@ -16,6 +16,7 @@ class ProduitsController extends Controller
     public function index()
     {
         $produits = produits::orderBy('id', 'desc')->get();
+        
         return view('dashboard.produits.index', compact('produits'));
     }
 
